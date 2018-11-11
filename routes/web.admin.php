@@ -13,4 +13,7 @@ Route::group([
 
     Route::get('update/news', 'HomeController@updateNews')->name('update.news');
 
+    Route::get('users', 'HomeController@showAllUsers')->name('users');
+    Route::get('users/{id}', 'HomeController@showUser')->name('users.show');
+
 });

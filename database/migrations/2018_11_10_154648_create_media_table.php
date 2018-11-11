@@ -18,7 +18,6 @@ class CreateMediaTable extends Migration
             $table->string('mediable_type');
             $table->string('mediable_id');
             $table->string('path');
-            $table->string('collection');
             $table->integer('size');
             $table->string('extension');
             $table->timestamps();

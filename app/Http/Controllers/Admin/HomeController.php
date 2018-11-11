@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Comment;
+use App\Models\Media;
 use App\Models\News;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -31,11 +34,21 @@ class HomeController extends Controller
         return view('admin.update.news.index', ['newslist' => $newslist]);
     }
 
-    public function removeReviews()
-    {
-        $reviewlist = Review::all();
 
-        return view('admin.update.news.index', ['newslist' => $newslist]);
+
+
+    public function showAllUsers()
+    {
+        $users = DB::table('users')->get();
+
+        return view('admin.users.index', ['users' => $users]);
+    }
+
+    public function showUser(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        return view('admin.users.show', ['user' => $user]);
     }
 
     /**

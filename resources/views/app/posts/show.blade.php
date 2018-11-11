@@ -42,22 +42,28 @@
         </a>
     </p>
 
-    <h2 class="mt-5">Комментарии -- {{ $post->comments_count }}</h2>
+    <h2 class="mt-5">All comments (unapproved not displayed): {{ $post->comments->count() }}</h2>
 
     @forelse($post->comments as $comment)
-        <div class="row">
-            <div class="col-auto">
-                <p><img src="{{ asset($comment->user->user_avatar) }}" class="rounded-circle" alt="{{ $comment->user->name }}" width="100"></p>
-                {{ $comment->user->name }}
-            </div>
 
-            <div class="col">
-                <p>{!! nl2br($comment->message) !!}</p>
-                <p class="text-muted text-right mb-0">
-                    {{ $comment->created_at->diffForHumans() }}
-                </p>
+        @if($comment->approved)
+            <div class="row">
+                <div class="col-auto">
+                    <p>
+                        <img src="{{ asset($comment->user->user_avatar) }}"
+                             class="rounded-circle" alt="{{ $comment->user->name }}" width="100">
+                    </p>
+                    {{ $comment->user->name }}
+                </div>
+
+                <div class="col">
+                    <p>{!! nl2br($comment->message) !!}</p>
+                    <p class="text-muted text-right mb-0">
+                        {{ $comment->created_at->diffForHumans() }}
+                    </p>
+                </div>
             </div>
-        </div>
+        @endif
 
         <hr>
     @empty

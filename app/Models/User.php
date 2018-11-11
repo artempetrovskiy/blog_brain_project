@@ -57,4 +57,10 @@ class User extends Authenticatable
 
         return Auth::user()->role->name === $needle;
     }
+
+    public function medias()
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
+
 }

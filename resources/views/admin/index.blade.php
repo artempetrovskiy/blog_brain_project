@@ -25,6 +25,12 @@
                         <a href="{{ route('admin.update.news') }}" class="nav-link">admin/update/news</a>
                     </td>
                 </tr>
+                <tr>
+                    <td>View users</td>
+                    <td>
+                        <a href="{{ route('admin.users') }}" class="nav-link">admin/users</a>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

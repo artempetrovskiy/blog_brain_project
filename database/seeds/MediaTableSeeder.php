@@ -11,6 +11,6 @@ class MediaTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Media::class, 5)->create();
+        factory(\App\Models\Media::class, 500)->create();
     }
 }

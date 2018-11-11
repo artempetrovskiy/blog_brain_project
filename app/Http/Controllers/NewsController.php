@@ -48,7 +48,7 @@ class NewsController extends Controller
 
     public function store()
     {
-        request()->validate([
+         request()->validate([
             'title' => 'required',
             'body' => 'required',
         ]);
@@ -83,11 +83,6 @@ class NewsController extends Controller
         ]);
 
         $comment = $news->comments()->create($validated);
-
-        if (auth()->user()->id === $request->user_id) {
-            $comment->update(['approved' => 1]);
-        }
-
         return back();
     }
 
@@ -107,4 +102,5 @@ class NewsController extends Controller
 
         return redirect()->route('admin.update.news');
     }
+
 }

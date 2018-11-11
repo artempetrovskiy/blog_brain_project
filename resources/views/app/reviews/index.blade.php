@@ -27,7 +27,7 @@
                         <p class="lead">{{ $review->user->name }}</p>
                     @endif
 
-                    <p class="mb-0">Comments: {{ $review->comments->count() }}</p>
+                    <p class="mb-0">All comments: {{ $review->comments->count() }}</p>
                 </div>
             </div>
         @empty

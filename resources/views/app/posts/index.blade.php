@@ -27,7 +27,7 @@
                         <p class="lead">{{ $post->user->name }}</p>
                     @endif
 
-                    <p class="mb-0">Comments: {{ $post->comments->count() }}</p>
+                    <p class="mb-0">All comments: {{ $post->comments->count() }}</p>
                 </div>
             </div>
         @empty
