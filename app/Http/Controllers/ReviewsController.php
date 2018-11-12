@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Review;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 
 class ReviewsController extends Controller
 {
@@ -37,6 +40,7 @@ class ReviewsController extends Controller
     public function create()
     {
         return view('app.reviews.create', [
+            'categories' => Category::orderBy('title')->get(),
             'tags' => Tag::orderBy('title')->get(),
         ]);
     }
@@ -50,8 +54,6 @@ class ReviewsController extends Controller
 
         $review = Review::create(request()->all());
 
-        $review->tags()->attach(request('tags'));
-
         return redirect()->route('app.reviews.show', $review);
     }
 
@@ -60,11 +62,6 @@ class ReviewsController extends Controller
         return view('app.reviews.show', compact('review'));
     }
 
-    /**
-     * @param Review $review
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
     public function destroy(Review $review)
     {
         $this->checkUser($review);
@@ -83,11 +80,6 @@ class ReviewsController extends Controller
         ]);
 
         $comment = $review->comments()->create($validated);
-
-        if (auth()->user()->id === $request->user_id) {
-            $comment->update(['approved' => 1]);
-        }
-
         return back();
     }
 
@@ -95,5 +87,16 @@ class ReviewsController extends Controller
         if ($review->user_id !== auth()->user()->id) {
             return back();
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        DB::table('reviews')->where('id', $id)->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('admin.update.reviews');
     }
 }

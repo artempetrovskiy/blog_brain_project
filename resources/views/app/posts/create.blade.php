@@ -6,7 +6,7 @@
         $method = 'post';
 
         if (isset($news)) {
-            $route = route('app.posts.update', $news);
+            $route = route('app.posts.update', $post);
             $method = 'patch';
         }
     @endphp

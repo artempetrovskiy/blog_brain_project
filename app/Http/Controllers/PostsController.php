@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 class PostsController extends Controller
 {
     public function __construct()
@@ -18,20 +20,20 @@ class PostsController extends Controller
 
     public function index()
     {
-        $postlist = Post::query();
+        $postslist = Post::query();
 
         if (request()->filled('tag')) {
-            $postlist = $postlist->whereHas('tags', function ($q) {
+            $postslist = $postslist->whereHas('tags', function ($q) {
                 $q->where('tag_id', request('tag'));
             });
         }
 
         if (request()->filled('author')) {
-            $postlist = $postlist->where('user_id', request()->author);
+            $postslist = $postslist->where('user_id', request()->author);
         }
 
         return view('app.posts.index', [
-            'postslist' => $postlist->paginate(3),
+            'postslist' => $postslist->paginate(3),
         ]);
     }
 
@@ -62,11 +64,6 @@ class PostsController extends Controller
         return view('app.posts.show', compact('post'));
     }
 
-    /**
-     * @param Post $post
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
     public function destroy(Post $post)
     {
         $this->checkUser($post);
@@ -85,11 +82,6 @@ class PostsController extends Controller
         ]);
 
         $comment = $post->comments()->create($validated);
-
-        if (auth()->user()->id === $request->user_id) {
-            $comment->update(['approved' => 1]);
-        }
-
         return back();
     }
 
@@ -97,5 +89,16 @@ class PostsController extends Controller
         if ($post->user_id !== auth()->user()->id) {
             return back();
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        DB::table('posts')->where('id', $id)->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('admin.update.posts');
     }
 }

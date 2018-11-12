@@ -3,7 +3,7 @@
 @section('content')
     @php
         $route = route('app.reviews.store');
-        $method = 'review';
+        $method = 'post';
 
         if (isset($news)) {
             $route = route('app.reviews.update', $news);

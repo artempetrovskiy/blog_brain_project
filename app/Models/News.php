@@ -40,9 +40,9 @@ class News extends Model
     {
         parent::boot();
 
-//        self::saving(function ($model) {
-//            $model->user_id = auth()->user()->getKey();
-//        });
+        self::saving(function ($model) {
+            $model->user_id = auth()->user()->getKey();
+        });
 
         self::addGlobalScope('ordered', function ($builder) {
             $builder->latest('updated_at');
